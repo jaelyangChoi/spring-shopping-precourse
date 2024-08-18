@@ -31,7 +31,7 @@ public class ProductRepositoryTest {
         Product savedProduct = productRepository.save(product);
 
         //then
-        Product findProduct = productRepository.findById(savedProduct.getProductId()).get();
+        Product findProduct = productRepository.findById(savedProduct.getProductId()).orElseThrow();
         assertThat(findProduct).isEqualTo(savedProduct);
     }
 

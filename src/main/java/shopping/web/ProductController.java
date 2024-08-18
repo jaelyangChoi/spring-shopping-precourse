@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
-@RequestMapping("/api/products")
 @RequiredArgsConstructor
+@RequestMapping("/api/products")
 @RestController
 public class ProductController {
 
@@ -21,9 +21,7 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public Product findProduct(@PathVariable Long productId) {
-        log.info("Find product by id: {}", productId);
         Optional<Product> findProduct = productService.findById(productId);
-
         return findProduct.orElse(null);
     }
 
