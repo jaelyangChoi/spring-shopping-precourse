@@ -19,4 +19,9 @@ public class Product {
     private Integer price;
     private String image_url;
 
+    public Product(String productName, Integer price, String image_url) {
+        this.productName = productName;
+        this.price = price;
+        this.image_url = image_url;
+    }
 }
