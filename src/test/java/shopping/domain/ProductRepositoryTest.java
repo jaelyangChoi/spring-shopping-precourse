@@ -1,7 +1,6 @@
 package shopping.domain;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import shopping.repository.ProductRepository;
 import shopping.repository.ProductUpdateDto;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -80,5 +78,19 @@ public class ProductRepositoryTest {
     void test(Product... products) {
         List<Product> result = productRepository.findAll();
         assertThat(result).containsExactly(products);
+    }
+
+    @Test
+    void delete() {
+        //given
+        Product product = new Product("productA", 10000, "https://plus.unsplash.com/premium_photo1");
+        productRepository.save(product);
+
+        //when
+        productRepository.deleteById(product.getProductId());
+
+        //then
+        assertThat(productRepository.findById(product.getProductId())).isEmpty();
+        assertThat(productRepository.findAll()).isEmpty();
     }
 }

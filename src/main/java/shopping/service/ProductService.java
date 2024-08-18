@@ -1,0 +1,39 @@
+package shopping.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import shopping.domain.Product;
+import shopping.repository.ProductRepository;
+import shopping.repository.ProductUpdateDto;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public Optional<Product> findById(Long productId) {
+        return productRepository.findById(productId);
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    public void update(Long productId, ProductUpdateDto updateParam) {
+        Product findProduct = productRepository.findById(productId).orElseThrow();
+        findProduct.setProductName(updateParam.getProductName());
+        findProduct.setPrice(updateParam.getPrice());
+        findProduct.setImage_url(updateParam.getImageUrl());
+    }
+
+    public void delete(Long productId) {
+        productRepository.deleteById(productId);
+    }
+}
