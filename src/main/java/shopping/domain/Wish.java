@@ -11,6 +11,11 @@ public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wishId;
-    private String memberId;
+    private Long memberId;
     private Long productId;
+
+    public Wish(Long memberId, Long productId) {
+        this.memberId = memberId;
+        this.productId = productId;
+    }
 }

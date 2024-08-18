@@ -52,7 +52,7 @@ public class MemberController {
         if (loginMember.isPresent()) {
             //세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성
             HttpSession session = request.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.get());
             return session.getId();
         }
         return "로그인 실패";

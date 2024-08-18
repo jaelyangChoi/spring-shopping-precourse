@@ -15,7 +15,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public Member register(Member member) {
-        if (memberRepository.findById(member.getEmail()).isPresent()) {
+        if (findByEmail(member.getEmail()).isPresent()) {
             throw new RuntimeException("이미 가입된 회원 이메일입니다.");
         }
         memberRepository.save(member);
@@ -24,5 +24,9 @@ public class MemberService {
 
     public Optional<Member> login(String email, String password) {
         return memberRepository.findByEmailAndPassword(email, password);
+    }
+
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }

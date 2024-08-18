@@ -1,22 +1,25 @@
 package shopping.domain;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Member {
 
-    @Id @Email
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberId;
+    @Email
     private String email;
     private String password;
-    private String memberId;
+
+    public Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

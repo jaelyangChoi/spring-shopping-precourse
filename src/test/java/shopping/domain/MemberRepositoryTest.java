@@ -22,20 +22,20 @@ public class MemberRepositoryTest {
     @Test
     void register() {
         //given
-        Member member = new Member("cjl2076@naver.com", "0000", "cjl0701");
+        Member member = new Member("cjl2076@naver.com", "0000");
 
         //when
         memberRepository.save(member);
 
         //then
-        Member findMember = memberRepository.findById(member.getEmail()).orElseThrow();
+        Member findMember = memberRepository.findById(member.getMemberId()).orElseThrow();
         assertThat(findMember).isEqualTo(member);
     }
 
     @Test
     void login() {
         //given
-        Member member = new Member("cjl2076@naver.com", "0000", "cjl0701");
+        Member member = new Member("cjl2076@naver.com", "0000");
         memberRepository.save(member);
 
         //when
