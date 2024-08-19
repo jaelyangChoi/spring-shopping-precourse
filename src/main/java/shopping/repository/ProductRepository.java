@@ -1,16 +1,15 @@
 package shopping.repository;
 
-import org.springframework.stereotype.Repository;
 import shopping.domain.Product;
+import shopping.dto.ProductDto;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 public interface ProductRepository {
     public void addProduct(Product product);
-    public Product getProduct(Long id);
+    public Optional<Product> getProduct(Long id);
     public List<Product> getAllProducts();
-    public void updateProduct(Long id,  ProductUpdateDto productUpdateDto);
+    public void updateProduct(Long id,  ProductDto productDto);
     public void deleteProduct(Long id);
 }
