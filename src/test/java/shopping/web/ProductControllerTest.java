@@ -106,6 +106,29 @@ public class ProductControllerTest {
     }
 
     @Test
+    void updateProductNoSuchEx() {
+        Long productId = 1000L;
+        String url = "http://localhost:" + port + "/api/products/" + productId;
+
+        ProductDto updateParam = new ProductDto("productX", 1, "imageUrlX");
+        String json;
+        try {
+            json = new ObjectMapper().writeValueAsString(updateParam);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        String result = restClient.put()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(json)
+                .retrieve()
+                .body(String.class);
+
+        assertThat(result).isEqualTo("Product not found");
+    }
+
+    @Test
     void deleteProduct() {
         Long productId = 1L;
         String url = "http://localhost:" + port + "/api/products/" + productId;

@@ -30,6 +30,9 @@ public class MemoryProductRepository implements ProductRepository {
     @Override
     public void updateProduct(Long id, ProductDto productDto) {
         Product findProduct = products.get(id);
+        if (findProduct == null) {
+            throw new NoSuchElementException("Product not found. id = " + id.toString());
+        }
         findProduct.setName(productDto.getName());
         findProduct.setPrice(productDto.getPrice());
         findProduct.setImageUrl(productDto.getImageUrl());
@@ -40,7 +43,7 @@ public class MemoryProductRepository implements ProductRepository {
         products.remove(id);
     }
 
-    public void clear(){
+    public void clear() {
         products.clear();
         sequence = 0L;
     }
