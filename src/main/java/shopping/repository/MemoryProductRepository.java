@@ -14,7 +14,7 @@ public class MemoryProductRepository implements ProductRepository {
 
     @Override
     public void addProduct(Product product) {
-        products.put(sequence++, product);
+        products.put(++sequence, product);
     }
 
     @Override
@@ -29,11 +29,20 @@ public class MemoryProductRepository implements ProductRepository {
 
     @Override
     public void updateProduct(Long id, ProductDto productDto) {
-
+        Product findProduct = products.get(id);
+        findProduct.setName(productDto.getName());
+        findProduct.setPrice(productDto.getPrice());
+        findProduct.setImageUrl(productDto.getImageUrl());
     }
 
     @Override
     public void deleteProduct(Long id) {
 
     }
+
+    public void clear(){
+        products.clear();
+        sequence = 0L;
+    }
+
 }

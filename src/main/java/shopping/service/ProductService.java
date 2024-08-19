@@ -1,6 +1,8 @@
 package shopping.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
 import shopping.repository.ProductRepository;
@@ -22,5 +24,9 @@ public class ProductService {
 
     public List<Product> findAllProducts() {
         return productRepository.getAllProducts();
+    }
+
+    public void updateProduct(Long productId, ProductDto updateParam) {
+        productRepository.updateProduct(productId, updateParam);
     }
 }

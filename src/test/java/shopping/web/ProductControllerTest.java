@@ -1,25 +1,19 @@
 package shopping.web;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
+import shopping.repository.MemoryProductRepository;
 import shopping.repository.ProductRepository;
-
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -47,6 +41,14 @@ public class ProductControllerTest {
         productRepository.addProduct(new Product("product2", 2000, "imageUrl2"));
     }
 
+    @AfterEach
+    void tearDown() {
+        if (productRepository instanceof MemoryProductRepository) {
+            MemoryProductRepository memoryProductRepository = (MemoryProductRepository) productRepository;
+            memoryProductRepository.clear();
+        }
+    }
+
     @Test
     void findProduct() {
         String url = "http://localhost:" + port + "/api/products/1";
@@ -65,14 +67,43 @@ public class ProductControllerTest {
         final List<ProductDto> findProducts = restClient.get()
                 .uri(url)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>(){} );
+                .body(new ParameterizedTypeReference<>() {
+                });
 
         assertThat(findProducts).hasSize(2);
     }
-//
-//    @Test
-//    void updateProduct() {
-//    }
+
+    @Test
+    void updateProduct() {
+        Long productId = 1L;
+        String url = "http://localhost:" + port + "/api/products/1";
+
+        ProductDto updateParam = new ProductDto("productX", 1, "imageUrlX");
+        String json;
+        try {
+            json = new ObjectMapper().writeValueAsString(updateParam);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        String result = restClient.put()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(json)
+                .retrieve()
+                .body(String.class);
+
+        assertThat(result).isEqualTo("success");
+        Product updatedProduct = productRepository.getProduct(productId).orElseThrow();
+        assertThat(updatedProduct.getName()).isEqualTo(updateParam.getName());
+        assertThat(updatedProduct.getPrice()).isEqualTo(updateParam.getPrice());
+        assertThat(updatedProduct.getImageUrl()).isEqualTo(updateParam.getImageUrl());
+        org.junit.jupiter.api.Assertions.assertAll(
+                () -> assertThat(updatedProduct.getName()).isEqualTo(updateParam.getName()),
+                () -> assertThat(updatedProduct.getPrice()).isEqualTo(updateParam.getPrice()),
+                () -> assertThat(updatedProduct.getImageUrl()).isEqualTo(updateParam.getImageUrl())
+        );
+    }
 //
 //    @Test
 //    void deleteProduct() {

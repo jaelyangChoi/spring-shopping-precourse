@@ -36,9 +36,12 @@ public class ProductDto {
     }
 
 
-
     public static ProductDto fromEntity(Product product) {
         return new ProductDto(product.getName(), product.getPrice(), product.getImageUrl());
+    }
+
+    public Product toEntity() {
+        return new Product(name, price, imageUrl);
     }
 }
 

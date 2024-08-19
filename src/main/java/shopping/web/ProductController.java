@@ -1,13 +1,16 @@
 package shopping.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
 import shopping.service.ProductService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -30,9 +33,15 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public String updateProduct(@PathVariable Long productId, @RequestBody ProductDto updateParam) {
+    public String updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto updateParam) {
+        try{
+            productService.updateProduct(productId, updateParam);
+        }catch(NoSuchElementException e){
+            log.error("updateProduct : NoSuchElementException", e);
+            return "Product not found";
+        }
 
-        return null;
+        return "success";
     }
 
     @DeleteMapping("/{productId}")
