@@ -76,7 +76,7 @@ public class ProductControllerTest {
     @Test
     void updateProduct() {
         Long productId = 1L;
-        String url = "http://localhost:" + port + "/api/products/1";
+        String url = "http://localhost:" + port + "/api/products/" + productId;
 
         ProductDto updateParam = new ProductDto("productX", 1, "imageUrlX");
         String json;
@@ -104,8 +104,17 @@ public class ProductControllerTest {
                 () -> assertThat(updatedProduct.getImageUrl()).isEqualTo(updateParam.getImageUrl())
         );
     }
-//
-//    @Test
-//    void deleteProduct() {
-//    }
+
+    @Test
+    void deleteProduct() {
+        Long productId = 1L;
+        String url = "http://localhost:" + port + "/api/products/" + productId;
+
+        String result = restClient.delete()
+                .uri(url)
+                .retrieve()
+                .body(String.class);
+
+        assertThat(result).isEqualTo("success");
+    }
 }

@@ -29,4 +29,8 @@ public class ProductService {
     public void updateProduct(Long productId, ProductDto updateParam) {
         productRepository.updateProduct(productId, updateParam);
     }
+
+    public void deleteProduct(Long productId) {
+        productRepository.deleteProduct(productId);
+    }
 }

@@ -45,9 +45,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public String deleteProduct(@PathVariable Long productId) {
-
-        return null;
+    public String deleteProduct(@PathVariable("productId") Long productId) {
+        productService.deleteProduct(productId);
+        return "success";
     }
 
 }

@@ -37,7 +37,7 @@ public class MemoryProductRepository implements ProductRepository {
 
     @Override
     public void deleteProduct(Long id) {
-
+        products.remove(id);
     }
 
     public void clear(){
