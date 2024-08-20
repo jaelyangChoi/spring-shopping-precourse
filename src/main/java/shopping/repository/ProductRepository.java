@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
-    public void addProduct(Product product);
-    public Optional<Product> getProduct(Long id);
-    public List<Product> getAllProducts();
-    public void updateProduct(Long id,  ProductDto productDto);
-    public void deleteProduct(Long id);
+    void addProduct(Product product);
+    Optional<Product> getProduct(Long id);
+    List<Product> getAllProducts();
+    void updateProduct(Long id,  ProductDto productDto);
+    void deleteProduct(Long id);
 }

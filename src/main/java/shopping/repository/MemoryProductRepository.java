@@ -6,7 +6,7 @@ import shopping.dto.ProductDto;
 
 import java.util.*;
 
-@Repository
+//@Repository
 public class MemoryProductRepository implements ProductRepository {
 
     private Map<Long, Product> products = new HashMap<Long, Product>();
