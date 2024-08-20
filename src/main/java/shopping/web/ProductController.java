@@ -1,6 +1,8 @@
 package shopping.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
@@ -19,6 +21,12 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @PostMapping
+    public String createProduct(@RequestBody ProductDto saveParam) {
+        productService.save(saveParam);
+        return "success";
     }
 
     @GetMapping("/{productId}")

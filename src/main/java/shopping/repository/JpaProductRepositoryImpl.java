@@ -3,19 +3,21 @@ package shopping.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Transactional
 @Repository
 public class JpaProductRepositoryImpl implements ProductRepository {
 
-    private final SpringDataJpaProductRepository repository;
+    private  SpringDataJpaProductRepository repository;
 
     @Autowired
-//    @Lazy
     public JpaProductRepositoryImpl(SpringDataJpaProductRepository springDataJpaProductRepository) {
         this.repository = springDataJpaProductRepository;
     }
@@ -37,11 +39,10 @@ public class JpaProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void updateProduct(Long id, ProductDto productDto) {
-        repository.findById(id).ifPresent(product -> {
-            product.setName(productDto.getName());
-            product.setPrice(productDto.getPrice());
-            product.setImageUrl(productDto.getImageUrl());
-        });
+        Product findProduct = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Product not found. id = " + id.toString()));
+        findProduct.setName(productDto.getName());
+        findProduct.setPrice(productDto.getPrice());
+        findProduct.setImageUrl(productDto.getImageUrl());
     }
 
     @Override

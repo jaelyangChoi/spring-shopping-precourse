@@ -33,4 +33,8 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         productRepository.deleteProduct(productId);
     }
+
+    public void save(ProductDto saveParam) {
+        productRepository.addProduct(saveParam.toEntity());
+    }
 }
