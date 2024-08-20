@@ -1,9 +1,13 @@
 package shopping.web;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 import shopping.domain.Product;
 import shopping.dto.ProductDto;
 import shopping.service.ProductService;
@@ -17,15 +21,24 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/products")
 public class ProductController {
 
+    private final View error;
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, View error) {
         this.productService = productService;
+        this.error = error;
     }
 
     @PostMapping
-    public String createProduct(@RequestBody ProductDto saveParam) {
+    public String createProduct(@RequestBody @Valid ProductDto saveParam, BindingResult bindingResult) {
         productService.save(saveParam);
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error ->
+                    {
+                        throw new IllegalArgumentException(error.getDefaultMessage());
+                    }
+            );
+        }
         return "success";
     }
 
@@ -42,9 +55,9 @@ public class ProductController {
 
     @PutMapping("/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto updateParam) {
-        try{
+        try {
             productService.updateProduct(productId, updateParam);
-        }catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             log.error("updateProduct : NoSuchElementException", e);
             return "Product not found";
         }

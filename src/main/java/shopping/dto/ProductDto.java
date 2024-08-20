@@ -6,14 +6,20 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import shopping.domain.Product;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
+    @NotBlank
+    @Length(max = 15, message = "상품의 이름은 15자를 넘길 수 없습니다.")
+    @SpecialChar
     private String name;
+    @NotNull
     private Integer price;
+    @NotBlank
     private String imageUrl;
 
     public String getName() {

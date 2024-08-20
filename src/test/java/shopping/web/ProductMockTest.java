@@ -15,11 +15,11 @@ public class ProductMockTest {
     public void createProduct() {
         //given
         ProductService mockProductService = mock(ProductService.class);
-        ProductController productController = new ProductController(mockProductService);
+        ProductController productController = new ProductController(mockProductService,null);
         ProductDto productDto = new ProductDto("",1,"");
 
         //when
-        productController.createProduct(productDto);
+        productController.createProduct(productDto, null);
 
         //then
         then(mockProductService).should(times(0)).save(productDto);
@@ -29,11 +29,11 @@ public class ProductMockTest {
     public void findProduct() {
         //given
         ProductService mockProductService = mock(ProductService.class);
-        ProductController productController = new ProductController(mockProductService);
+        ProductController productController = new ProductController(mockProductService, null);
         ProductDto productDto = new ProductDto("test",1,"");
 
         //when
-        productController.createProduct(productDto);
+        productController.createProduct(productDto, null);
 
         //then
         then(mockProductService).should(times(0)).save(productDto);
