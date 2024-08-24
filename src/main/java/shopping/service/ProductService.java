@@ -28,7 +28,7 @@ public class ProductService {
 
     public void update(Long productId, ProductUpdateDto updateParam) {
         Product findProduct = productRepository.findById(productId).orElseThrow();
-        findProduct.setName(updateParam.getProductName());
+        findProduct.setName(updateParam.getName());
         findProduct.setPrice(updateParam.getPrice());
         findProduct.setImageUrl(updateParam.getImageUrl());
     }

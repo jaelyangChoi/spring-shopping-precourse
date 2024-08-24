@@ -44,13 +44,13 @@ public class ProductRepositoryTest {
 
         //when
         ProductUpdateDto updateParam = new ProductUpdateDto("productB", 20000, "https://plus.unsplash.com/premium_photo2");
-        product.setName(updateParam.getProductName());
+        product.setName(updateParam.getName());
         product.setPrice(updateParam.getPrice());
         product.setImageUrl(updateParam.getImageUrl());
 
         //then
         Product findProduct = productRepository.findById(productId).orElseThrow();
-        assertThat(findProduct.getName()).isEqualTo(updateParam.getProductName());
+        assertThat(findProduct.getName()).isEqualTo(updateParam.getName());
         assertThat(findProduct.getPrice()).isEqualTo(updateParam.getPrice());
         assertThat(findProduct.getImageUrl()).isEqualTo(updateParam.getImageUrl());
     }
