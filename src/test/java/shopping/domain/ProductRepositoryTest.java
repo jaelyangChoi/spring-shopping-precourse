@@ -31,7 +31,7 @@ public class ProductRepositoryTest {
         Product savedProduct = productRepository.save(product);
 
         //then
-        Product findProduct = productRepository.findById(savedProduct.getProductId()).orElseThrow();
+        Product findProduct = productRepository.findById(savedProduct.getId()).orElseThrow();
         assertThat(findProduct).isEqualTo(savedProduct);
     }
 
@@ -40,19 +40,19 @@ public class ProductRepositoryTest {
     void updateProduct() {
         //given
         Product product = new Product("productA", 10000, "https://plus.unsplash.com/premium_photo1");
-        Long productId = productRepository.save(product).getProductId();
+        Long productId = productRepository.save(product).getId();
 
         //when
         ProductUpdateDto updateParam = new ProductUpdateDto("productB", 20000, "https://plus.unsplash.com/premium_photo2");
-        product.setProductName(updateParam.getProductName());
+        product.setName(updateParam.getProductName());
         product.setPrice(updateParam.getPrice());
-        product.setImage_url(updateParam.getImageUrl());
+        product.setImageUrl(updateParam.getImageUrl());
 
         //then
         Product findProduct = productRepository.findById(productId).orElseThrow();
-        assertThat(findProduct.getProductName()).isEqualTo(updateParam.getProductName());
+        assertThat(findProduct.getName()).isEqualTo(updateParam.getProductName());
         assertThat(findProduct.getPrice()).isEqualTo(updateParam.getPrice());
-        assertThat(findProduct.getImage_url()).isEqualTo(updateParam.getImageUrl());
+        assertThat(findProduct.getImageUrl()).isEqualTo(updateParam.getImageUrl());
     }
 
     @Test
@@ -87,10 +87,10 @@ public class ProductRepositoryTest {
         productRepository.save(product);
 
         //when
-        productRepository.deleteById(product.getProductId());
+        productRepository.deleteById(product.getId());
 
         //then
-        assertThat(productRepository.findById(product.getProductId())).isEmpty();
+        assertThat(productRepository.findById(product.getId())).isEmpty();
         assertThat(productRepository.findAll()).isEmpty();
     }
 }

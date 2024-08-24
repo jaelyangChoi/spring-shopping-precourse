@@ -2,6 +2,8 @@ package shopping.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import shopping.domain.Product;
 import shopping.domain.dto.ProductUpdateDto;
@@ -31,12 +33,24 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.save(product);
+    public Object createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("검증 오류 발생 erros={]", bindingResult);
+            return bindingResult.getAllErrors();
+        }
+
+        return productService.save(productDto);
     }
 
     @PutMapping("/{productId}")
-    public String updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateDto updateParam) {
+    public Object updateProduct(@PathVariable Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("검증 오류 발생 erros={]", bindingResult);
+            return bindingResult.getAllErrors();
+        }
+
         try {
             productService.update(productId, updateParam);
             return "SUCCESS";

@@ -22,8 +22,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product save(Product product) {
-        return productRepository.save(product);
+    public Product save(ProductUpdateDto productDto) {
+        return productRepository.save(productDto.toEntity());
     }
 
     public void update(Long productId, ProductUpdateDto updateParam) {
