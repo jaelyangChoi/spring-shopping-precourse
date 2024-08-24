@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shopping.domain.Product;
 import shopping.repository.ProductRepository;
-import shopping.repository.ProductUpdateDto;
+import shopping.domain.dto.ProductUpdateDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +28,9 @@ public class ProductService {
 
     public void update(Long productId, ProductUpdateDto updateParam) {
         Product findProduct = productRepository.findById(productId).orElseThrow();
-        findProduct.setProductName(updateParam.getProductName());
+        findProduct.setName(updateParam.getProductName());
         findProduct.setPrice(updateParam.getPrice());
-        findProduct.setImage_url(updateParam.getImageUrl());
+        findProduct.setImageUrl(updateParam.getImageUrl());
     }
 
     public void delete(Long productId) {

@@ -1,4 +1,4 @@
-package shopping.repository;
+package shopping.domain.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

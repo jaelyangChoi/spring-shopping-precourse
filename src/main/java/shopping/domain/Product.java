@@ -14,14 +14,14 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-    private String productName;
+    private Long id;
+    private String name;
     private Integer price;
-    private String image_url;
+    private String imageUrl;
 
-    public Product(String productName, Integer price, String image_url) {
-        this.productName = productName;
+    public Product(String name, Integer price, String imageUrl) {
+        this.name = name;
         this.price = price;
-        this.image_url = image_url;
+        this.imageUrl = imageUrl;
     }
 }

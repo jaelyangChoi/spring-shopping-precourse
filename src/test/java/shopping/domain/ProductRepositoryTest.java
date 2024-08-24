@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import shopping.repository.ProductRepository;
-import shopping.repository.ProductUpdateDto;
+import shopping.domain.dto.ProductUpdateDto;
 
 import java.util.List;
 
