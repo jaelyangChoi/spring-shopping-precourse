@@ -1,5 +1,6 @@
 package shopping.web;
 
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,6 @@ import shopping.service.ProductService;
 import shopping.web.validator.ProductValidator;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public Product findProduct(@PathVariable Long productId) {
+    public Product findProduct(@PathVariable("productId") Long productId) {
         Optional<Product> findProduct = productService.findById(productId);
         return findProduct.orElse(null);
     }
@@ -43,39 +43,28 @@ public class ProductController {
     @PostMapping
     public Object createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
 
-        //특수문자, 비속어 검증
-        productValidator.validate(productDto, bindingResult);
-
         if (bindingResult.hasErrors()) {
-            log.info("검증 오류 발생 erros={]", bindingResult);
-            return bindingResult.getAllErrors();
+            log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
+            throw new ValidationException(bindingResult.getFieldError().getCode());
         }
 
         return productService.save(productDto);
     }
 
     @PutMapping("/{productId}")
-    public Object updateProduct(@PathVariable Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
-
-        //특수문자, 비속어 검증
-        productValidator.validate(updateParam, bindingResult);
+    public Object updateProduct(@PathVariable("productId") Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.info("검증 오류 발생 erros={]", bindingResult);
-            return bindingResult.getAllErrors();
+            log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
+            throw new ValidationException(bindingResult.getFieldError().getCode());
         }
 
-        try {
-            productService.update(productId, updateParam);
-            return "SUCCESS";
-        } catch (NoSuchElementException e) {
-            log.error("UPDATE ERROR : ", e);
-            return "NO SUCH PRODUCT";
-        }
+        productService.update(productId, updateParam);
+        return "SUCCESS";
     }
 
     @DeleteMapping("/{productId}")
-    public String deleteProduct(@PathVariable Long productId) {
+    public String deleteProduct(@PathVariable("productId") Long productId) {
         productService.delete(productId);
         return "OK";
     }

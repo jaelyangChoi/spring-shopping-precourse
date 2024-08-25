@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import shopping.domain.dto.ProductUpdateDto;
 
 @Slf4j
 @Component
+@Order  // default : 가장 낮은 우선순위 설정. 기본 bean validation 먼저 진행
 public class ProductValidator implements Validator {
     private RestClient.Builder builder;
     private RestClient client;
