@@ -23,7 +23,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public String register(@Validated @RequestBody MemberDto registerParam, BindingResult bindingResult, HttpServletRequest request) {
+    public TokenResponse register(@Validated @RequestBody MemberDto registerParam, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().toString());
             throw new ValidationException(bindingResult.getFieldError().getCode());
@@ -36,11 +36,12 @@ public class MemberController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, registeredMember);
         log.info("session = {}", session);
 
-        return session.getId();
+
+        return new TokenResponse(session.getId());
     }
 
     @PostMapping("/login")
-    public String login(@Validated @RequestBody MemberDto loginParam, BindingResult bindingResult, HttpServletRequest request) {
+    public TokenResponse login(@Validated @RequestBody MemberDto loginParam, BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().toString());
@@ -52,8 +53,10 @@ public class MemberController {
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.get());
 
-            return session.getId();
+            return new TokenResponse(session.getId());
         }
-        return "로그인 실패";
+        return new TokenResponse("login fail");
     }
+
+    record TokenResponse(String token){}
 }

@@ -27,7 +27,7 @@ public class WishRepositoryTest {
         Wish savedWish = wishRepository.save(wish);
 
         //then
-        Wish findWish = wishRepository.findById(savedWish.getWishId()).orElseThrow();
+        Wish findWish = wishRepository.findById(savedWish.getId()).orElseThrow();
         assertThat(savedWish).isEqualTo(findWish);
     }
 
