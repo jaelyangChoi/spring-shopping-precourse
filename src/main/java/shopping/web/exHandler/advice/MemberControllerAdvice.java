@@ -8,23 +8,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import shopping.web.ProductController;
+import shopping.web.MemberController;
 import shopping.web.exHandler.ErrorResult;
 
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestControllerAdvice(assignableTypes = ProductController.class)
-public class ProductControllerAdvice {
-
+@RestControllerAdvice(assignableTypes = MemberController.class)
+public class MemberControllerAdvice {
     private final MessageSource ms;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NoSuchElementException.class)
-    public ErrorResult NoSuchExHandle(NoSuchElementException e){
-        log.error("[exceptionHandler] NoSuchExHandle", e);
-        return new ErrorResult("NoSuchElement", ms.getMessage("noSuch.Product", null, null));
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorResult registerExHandle(RuntimeException e){
+        log.error("[exceptionHandler] registerExHandle", e);
+        return new ErrorResult("registered Email", ms.getMessage(e.getMessage(), null, null));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

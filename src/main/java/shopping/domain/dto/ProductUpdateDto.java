@@ -2,6 +2,7 @@ package shopping.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -9,6 +10,7 @@ import shopping.domain.Product;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductUpdateDto {
 
     @NotBlank
@@ -18,12 +20,6 @@ public class ProductUpdateDto {
     private Integer price;
     @NotBlank
     private String imageUrl;
-
-    public ProductUpdateDto(String name, Integer price, String imageUrl) {
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
 
     public Product toEntity() {
         return new Product(this.name, this.price, this.imageUrl);

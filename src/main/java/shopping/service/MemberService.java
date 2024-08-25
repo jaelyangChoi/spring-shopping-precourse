@@ -16,7 +16,7 @@ public class MemberService {
 
     public Member register(Member member) {
         if (findByEmail(member.getEmail()).isPresent()) {
-            throw new RuntimeException("이미 가입된 회원 이메일입니다.");
+            throw new RuntimeException("registeredEmail");
         }
         memberRepository.save(member);
         return member;

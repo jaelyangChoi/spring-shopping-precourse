@@ -13,15 +13,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/wishes")
 @RestController
-public class wishController {
+public class WishController {
 
     private final WishService wishService;
 
+    /**
+     * ToDO : @Login 애노테이션 만들어서 적용
+     */
     @PostMapping
     public Wish addWish(@RequestBody Wish wish, @SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member loginMember) {
         log.info("login member: {}", loginMember);
         log.info("wish: {}", wish);
-        wish.setMemberId(loginMember.getMemberId());
+        wish.setMemberId(loginMember.getId());
         return wishService.save(wish);
     }
 
@@ -29,7 +32,7 @@ public class wishController {
     @GetMapping
     public List<Wish> getWishes(@SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member loginMember) {
         log.info("login member: {}", loginMember);
-        return wishService.findByMemberId(loginMember.getMemberId());
+        return wishService.findByMemberId(loginMember.getId());
     }
 
     @DeleteMapping("/{wishId}")

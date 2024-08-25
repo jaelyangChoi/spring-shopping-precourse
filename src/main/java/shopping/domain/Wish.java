@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wishId;
+    private Long id;
     private Long memberId;
     private Long productId;
 
