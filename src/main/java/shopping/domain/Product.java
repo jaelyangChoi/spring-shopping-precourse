@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import shopping.domain.dto.ProductUpdateDto;
 
 @Data
 @NoArgsConstructor
@@ -23,5 +24,19 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public void update(ProductUpdateDto productUpdateDto) {
+        if (productUpdateDto.getName() != null) {
+            this.name = productUpdateDto.getName();
+        }
+
+        if (productUpdateDto.getPrice() != null) {
+            this.price = productUpdateDto.getPrice();
+        }
+
+        if (productUpdateDto.getImageUrl() != null) {
+            this.imageUrl = productUpdateDto.getImageUrl();
+        }
     }
 }

@@ -3,6 +3,7 @@ package shopping.web;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -41,7 +42,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public Object createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
@@ -52,7 +54,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public Object updateProduct(@PathVariable("productId") Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
+    public String updateProduct(@PathVariable("productId") Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
