@@ -43,7 +43,8 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Object createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
@@ -54,7 +55,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public Object updateProduct(@PathVariable("productId") Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
+    public String updateProduct(@PathVariable("productId") Long productId, @RequestBody @Validated ProductUpdateDto updateParam, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult.getFieldErrosr()={}", bindingResult.getFieldErrors());
