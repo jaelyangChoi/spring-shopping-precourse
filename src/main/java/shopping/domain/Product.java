@@ -29,6 +29,12 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product(DisplayedName displayedName, Integer price, String imageUrl) {
+        this.name = displayedName.getName();
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+
     public void update(ProductUpdateDto productUpdateDto) {
         if (productUpdateDto.getName() != null) {
             this.name = productUpdateDto.getName();

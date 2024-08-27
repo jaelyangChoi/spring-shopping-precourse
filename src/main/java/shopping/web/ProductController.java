@@ -41,7 +41,6 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody @Validated ProductUpdateDto productDto, BindingResult bindingResult) {
