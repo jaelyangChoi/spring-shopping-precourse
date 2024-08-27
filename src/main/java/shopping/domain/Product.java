@@ -5,9 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shopping.domain.dto.ProductUpdateDto;
 
-@Data
+@Getter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class Product {
@@ -25,5 +29,17 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public void update(ProductUpdateDto productUpdateDto) {
+        if (productUpdateDto.getName() != null) {
+            this.name = productUpdateDto.getName();
+        }
 
+        if (productUpdateDto.getPrice() != null) {
+            this.price = productUpdateDto.getPrice();
+        }
+
+        if (productUpdateDto.getImageUrl() != null) {
+            this.imageUrl = productUpdateDto.getImageUrl();
+        }
+    }
 }

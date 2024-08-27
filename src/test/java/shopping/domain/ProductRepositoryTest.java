@@ -44,9 +44,7 @@ public class ProductRepositoryTest {
 
         //when
         ProductUpdateDto updateParam = new ProductUpdateDto("productB", 20000, "https://plus.unsplash.com/premium_photo2");
-        product.setName(updateParam.getName());
-        product.setPrice(updateParam.getPrice());
-        product.setImageUrl(updateParam.getImageUrl());
+        product.update(updateParam);
 
         //then
         Product findProduct = productRepository.findById(productId).orElseThrow();

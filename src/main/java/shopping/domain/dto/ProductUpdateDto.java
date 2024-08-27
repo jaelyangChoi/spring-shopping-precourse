@@ -24,4 +24,6 @@ public class ProductUpdateDto {
     public Product toEntity() {
         return new Product(this.name, this.price, this.imageUrl);
     }
+
+
 }
